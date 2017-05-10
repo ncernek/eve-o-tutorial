@@ -9,7 +9,23 @@ require('babel-register');
 var swig  = require('swig');
 var React = require('react');
 var ReactDOM = require('react-dom/server');
+var Router = require('react-router');
+var routes = require('./app/routes');
 
+var mongoose = require('mongoose');
+var Character = require('./models/character');
+var config = require('./config');
+
+var async = require('async');
+var request = require('request');
+var xml2js = require('xml2js');
+
+
+// Connect to Mongo DB
+mongoose.connect(config.database);
+mongoose.connection.on('error', function() {
+  console.info('Error: Could not connect to MongoDB. Dingus, did you forget to run `mongod`?');
+});
 
 
 // Instantiate the Express server
